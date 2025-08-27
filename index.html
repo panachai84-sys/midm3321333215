@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบทดสอบคณิตศาสตร์</title>
+    <style>
+        body {
+            font-family: 'Sarabun', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo-container img {
+            max-width: 120px;
+            height: auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        .user-info {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .user-info input[type="text"] {
+            padding: 8px;
+            margin-top: 5px;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #eef5ee;
+            border-left: 5px solid #4CAF50;
+            border-radius: 5px;
+        }
+        .question-text {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        .options label {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .options label:hover {
+            background-color: #f0f0f0;
+        }
+        .options input[type="radio"] {
+            margin-right: 10px;
+        }
+        .result-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .correct {
+            color: #28a745;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+        .incorrect {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+        .correct-answer-display {
+            font-weight: normal;
+            font-style: italic;
+            display: block;
+            margin-top: 5px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .summary {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e9e9e9;
+            border-radius: 8px;
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+
+        const questions = [
+            {
+                "id": "q1",
+                "text": "ข้อใดคือผลบวก $3$ พจน์แรกของลำดับ $\\displaystyle a_{n}=\\frac{(-1)^{n+1}n}{n+1}$",
+                "options": [
+                    { "text": "$\\displaystyle \\frac{23}{12}$", "isCorrect": false },
+                    { "text": "$\\displaystyle -\\frac{5}{12}$", "isCorrect": false },
+                    { "text": "$\\displaystyle -\\frac{7}{12}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{7}{12}$", "isCorrect": true },
+                    { "text": "$\\displaystyle \\frac{9}{12}$", "isCorrect": false }
+                ]
+            },
+            {
+                "id": "q2",
+                "text": "กำหนด $\\displaystyle a_{n+2}=a_{n+1}+a_{n}$ เมื่อ $\\displaystyle n \\ge 1$ และ $\\displaystyle a_{1}=2, a_{2}=1$ ข้อใดคือ $\\displaystyle a_{5}+a_{11}$",
+                "options": [
+                    { "text": "$\\displaystyle 130$", "isCorrect": true },
+                    { "text": "$\\displaystyle 135$", "isCorrect": false },
+                    { "text": "$\\displaystyle 137$", "isCorrect": false },
+                    { "text": "$\\displaystyle 140$", "isCorrect": false },
+                    { "text": "$\\displaystyle 142$", "isCorrect": false }
+                ]
+            },
+            {
+                "id": "q3",
+                "text": "ถ้า $\\displaystyle a_{1},a_{2},a_{3},...$ เป็นลำดับเลขคณิต ซึ่ง $\\displaystyle a_{30}-a_{10}=30$ ข้อใดคือผลต่างร่วมของลำดับนี้",
+                "options": [
+                    { "text": "$\\displaystyle \\frac{1}{2}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{3}{2}$", "isCorrect": true },
+                    { "text": "$\\displaystyle \\frac{5}{3}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{2}{5}$", "isCorrect": false },
+                    { "text": "$\\displaystyle 2$", "isCorrect": false }
+                ]
+            },
+            {
+                "id": "q4",
+                "text": "ถ้า $\\displaystyle a_{1}, a_{2}, a_{3}, ...$ เป็นลำดับเรขาคณิต โดยที่ $\\displaystyle a_{1}=2, a_{3}=200$ โดยมี r เป็นอัตราส่วนร่วม แล้วระหว่าง $r$ ที่เป็นจำนวนบวก และ $r$ ที่เป็นจำนวนลบ ค่าของ $\\displaystyle a_{1}+a_{2}+a_{3}$ ต่างกันเท่าใด",
+                "options": [
+                    { "text": "$\\displaystyle 40$", "isCorrect": true },
+                    { "text": "$\\displaystyle 50$", "isCorrect": false },
+                    { "text": "$\\displaystyle 60$", "isCorrect": false },
+                    { "text": "$\\displaystyle 70$", "isCorrect": false },
+                    { "text": "$\\displaystyle 80$", "isCorrect": false }
+                ]
+            },
+            {
+                "id": "q5",
+                "text": "จากลำดับฮาร์มอนิก $\\displaystyle \\frac{10}{3}, 2, \\frac{10}{7},...$ ข้อใดคือพจน์ที่ $10$",
+                "options": [
+                    { "text": "$\\displaystyle \\frac{9}{11}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{10}{21}$", "isCorrect": true },
+                    { "text": "$\\displaystyle 7$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{20}{31}$", "isCorrect": false },
+                    { "text": "$\\displaystyle 9$", "isCorrect": false }
+                ]
+            },
+            {
+                "id": "q6",
+                "text": "ถ้าพจน์ที่ $n$ ของอนุกรมหนึ่งเป็น $\\displaystyle \\frac{n}{2}+2$ แล้วผลบวก $29$ พจน์แรกตรงกับข้อใด",
+                "options": [
+                    { "text": "$\\displaystyle 275.5$", "isCorrect": true },
+                    { "text": "$\\displaystyle 215.5$", "isCorrect": false },
+                    { "text": "$\\displaystyle 254.5$", "isCorrect": false },
+                    { "text": "$\\displaystyle 137.5$", "isCorrect": false },
+                    { "text": "$\\displaystyle 125.5$", "isCorrect": false }
+                ]
+            },
+            {
+                "id": "q7",
+                "text": "กำหนด $\\displaystyle 1+a^{2}+a^{4}+a^{6}+...+a^{2x}=(1+a^{2})(1+a^{4})(1+a^{8})$ แล้วค่า $x$ ตรงกับข้อใด",
+                "options": [
+                    { "text": "$\\displaystyle 6$", "isCorrect": false },
+                    { "text": "$\\displaystyle 7$", "isCorrect": true },
+                    { "text": "$\\displaystyle 8$", "isCorrect": false },
+                    { "text": "$\\displaystyle 9$", "isCorrect": false },
+                    { "text": "$\\displaystyle 10$", "isCorrect": false }
+                ]
+            },
+            {
+                "id": "q8",
+                "text": "กำหนด $\\displaystyle a_{n}=\\frac{5^{n-1}}{n^{2}+3}$ ข้อใดคือ $\\displaystyle \\lim_{n\\rightarrow\\infty}\\frac{a_{n}}{a_{n+1}}$",
+                "options": [
+                    { "text": "$\\displaystyle 1$", "isCorrect": false },
+                    { "text": "$\\displaystyle 0$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{1}{2}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{1}{3}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{1}{5}$", "isCorrect": true }
+                ]
+            },
+            {
+                "id": "q9",
+                "text": "ข้อใดคือค่าของ $\\displaystyle \\lim_{n\\rightarrow\\infty}\\frac{\\sqrt[n]{2}-1}{\\sqrt[3n]{2}-1}$",
+                "options": [
+                    { "text": "$\\displaystyle 0$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\sqrt[3]{2}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\sqrt{2}$", "isCorrect": false },
+                    { "text": "$\\displaystyle 3$", "isCorrect": true },
+                    { "text": "$\\displaystyle 8$", "isCorrect": false }
+                ]
+            },
+            {
+                "id": "q10",
+                "text": "ข้อใดคือค่าของ $\\displaystyle 1+\\frac{2}{3}+\\frac{3}{3^{2}}+\\frac{4}{3^{3}}+...+\\frac{n}{3^{n-1}}+...$",
+                "options": [
+                    { "text": "$\\displaystyle \\frac{9}{4}$", "isCorrect": true },
+                    { "text": "$\\displaystyle \\frac{8}{3}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{1}{2}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{2}{3}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{5}{3}$", "isCorrect": false }
+                ]
+            },
+            {
+                "id": "q11",
+                "text": "ข้อใดคือค่าของ $\\displaystyle \\frac{1}{1\\cdot3}+\\frac{1}{3\\cdot5}+\\frac{1}{5\\cdot7}+...+\\frac{1}{(2n-1)(2n+1)}+...$",
+                "options": [
+                    { "text": "$\\displaystyle \\frac{4}{5}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{4}{3}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{1}{2}$", "isCorrect": true },
+                    { "text": "$\\displaystyle \\frac{3}{2}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{3}{4}$", "isCorrect": false }
+                ]
+            },
+            {
+                "id": "q12",
+                "text": "ข้อใดคือค่าของ $\\displaystyle \\sum_{n=1}^{\\infty}\\frac{4^{n+1}}{5^{n}}$",
+                "options": [
+                    { "text": "$\\displaystyle 12$", "isCorrect": false },
+                    { "text": "$\\displaystyle 13$", "isCorrect": false },
+                    { "text": "$\\displaystyle 14$", "isCorrect": false },
+                    { "text": "$\\displaystyle 15$", "isCorrect": false },
+                    { "text": "$\\displaystyle 16$", "isCorrect": true }
+                ]
+            },
+            {
+                "id": "q13",
+                "text": "ข้อใดคือค่าของ $\\displaystyle \\frac{5-3}{7}+\\frac{5^{2}-3^{2}}{7^{2}}+\\frac{5^{3}-3^{3}}{7^{3}}+.......$",
+                "options": [
+                    { "text": "$\\displaystyle \\frac{5}{4}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{7}{4}$", "isCorrect": true },
+                    { "text": "$\\displaystyle \\frac{6}{5}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{7}{5}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{11}{6}$", "isCorrect": false }
+                ]
+            },
+            {
+                "id": "q14",
+                "text": "ข้อใดคือค่าของ $\\displaystyle \\frac{2+1}{9}+\\frac{4+1}{27}+\\frac{8+1}{81}+\\frac{16+1}{243}+...$",
+                "options": [
+                    { "text": "$\\displaystyle \\frac{1}{6}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{1}{3}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{1}{2}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{2}{3}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{5}{6}$", "isCorrect": true }
+                ]
+            },
+            {
+                "id": "q15",
+                "text": "ข้อใดคือค่า $x$ ที่ทำให้ $\\displaystyle \\frac{2}{x}+\\frac{1}{2}+\\frac{x}{8}+\\frac{x^{2}}{32}+....=2$",
+                "options": [
+                    { "text": "$\\displaystyle 2$", "isCorrect": true },
+                    { "text": "$\\displaystyle 3$", "isCorrect": false },
+                    { "text": "$\\displaystyle 4$", "isCorrect": false },
+                    { "text": "$\\displaystyle 5$", "isCorrect": false },
+                    { "text": "$\\displaystyle 6$", "isCorrect": false }
+                ]
+            },
+            {
+                "id": "q16",
+                "text": "ข้อใดคือค่าของ $\\displaystyle \\sum_{n=1}^{\\infty}\\left(\\frac{1}{\\sqrt{n}}-\\frac{1}{\\sqrt{n+1}}\\right)$",
+                "options": [
+                    { "text": "$\\displaystyle \\frac{1}{3}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{1}{2}$", "isCorrect": false },
+                    { "text": "$\\displaystyle 1$", "isCorrect": true },
+                    { "text": "$\\displaystyle 2$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{5}{2}$", "isCorrect": false }
+                ]
+            },
+            {
+                "id": "q17",
+                "text": "ข้อใดคือค่าของ $\\displaystyle \\sum_{n=1}^{\\infty}\\left(\\frac{1}{4n^{2}-1}\\right)$",
+                "options": [
+                    { "text": "$\\displaystyle 0$", "isCorrect": false },
+                    { "text": "$\\displaystyle 0.1$", "isCorrect": false },
+                    { "text": "$\\displaystyle 0.25$", "isCorrect": false },
+                    { "text": "$\\displaystyle 0.4$", "isCorrect": false },
+                    { "text": "$\\displaystyle 0.5$", "isCorrect": true }
+                ]
+            },
+            {
+                "id": "q18",
+                "text": "นาย ก. ฝากเงินกับธนาคารที่ให้อัตราดอกเบี้ย $2.5%$ ต่อปี โดยคิดดอกเบี้ยทบต้นทุก $6$ เดือน ถ้าต้องการมีเงินในบัญชี $250,000$ บาท ในอีก $4$ ปีข้างหน้า ต้องฝากเงินต้นเท่าใด",
+                "options": [
+                    { "text": "$\\displaystyle 250,000(1.0125)^{8}$", "isCorrect": false },
+                    { "text": "$\\displaystyle 250,000(1.0125)^{4}$", "isCorrect": false },
+                    { "text": "$\\displaystyle 250,000(1.0125)^{-8}$", "isCorrect": true },
+                    { "text": "$\\displaystyle 250,000(1.025)^{8}$", "isCorrect": false },
+                    { "text": "$\\displaystyle 250,000(1.0125)^{-4}$", "isCorrect": false }
+                ]
+            },
+            {
+                "id": "q19",
+                "text": "เมื่อ $4$ ปีที่แล้ว นาย ข. ฝากเงินไว้กับสถาบันการเงินที่ให้อัตราดอกเบี้ยร้อยละ $1.8$ ต่อปี โดยคิดดอกเบี้ยทบต้นทุก $6$ เดือน ถ้าตอนนี้มีเงินทั้งหมด $37,600$ บาท โดยไม่ได้ฝากเพิ่มหรือถอนออก นาย ข. ได้รับดอกเบี้ยกี่บาท",
+                "options": [
+                    { "text": "$\\displaystyle 37,600(1-(1.009)^{8})$", "isCorrect": false },
+                    { "text": "$\\displaystyle 37,600(1-(1.009)^{-4})$", "isCorrect": false },
+                    { "text": "$\\displaystyle 37,600(1-(1.009)^{-8})$", "isCorrect": true },
+                    { "text": "$\\displaystyle 37,600(1-(1.003)^{24})$", "isCorrect": false },
+                    { "text": "$\\displaystyle 37,600(1-(1.003)^{-24})$", "isCorrect": false }
+                ]
+            },
+            {
+                "id": "q20",
+                "text": "นาย ก. ซื้อรถยนต์ราคา $835,000$ บาท จ่ายเงินดาวน์ $135,000$ บาท ที่เหลือผ่อนชำระเท่ากันทุกสิ้นเดือนเป็นเวลา $5$ ปี อัตราดอกเบี้ย $2.7%$ ต่อปี ทบต้นทุกเดือน นาย ก. ต้องผ่อนชำระเดือนละเท่าใด",
+                "options": [
+                    { "text": "$\\displaystyle \\frac{700,000((1.00225)^{60}-1)}{(1.00225)^{-1}((1.00225)^{-60}-1)}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{700,000((1.00225)^{-60}-1)}{(1.00225)^{-1}((1.00225)^{60}-1)}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{700,000((1.00225)^{60}-1)}{(1.00225)((1.00225)^{-60}-1)}$", "isCorrect": false },
+                    { "text": "$\\displaystyle \\frac{700,000((1.00225)^{-1}-1)}{(1.00225)^{-1}((1.00225)^{-60}-1)}$", "isCorrect": true },
+                    { "text": "$\\displaystyle \\frac{700,000(0.00225)}{1-(1.00225)^{60}}$", "isCorrect": false }
+                ]
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const quizContainer = document.getElementById('quiz-container');
+            
+            const userInfoDiv = document.createElement('div');
+            userInfoDiv.className = 'user-info';
+            userInfoDiv.innerHTML = `
+                <h3>รายวิชาคณิตศาสตร์เพิ่มเติม 5(พิเศษ) และ รายวิชาคณิตศาสตร์เพิ่มเติม 5(Gifted)</h3>
+                <label for="name">ชื่อ-นามสกุล:</label>
+                <input type="text" id="name" name="name" placeholder="กรอกชื่อ-นามสกุล">
+            `;
+            quizContainer.before(userInfoDiv);
+
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.id = q.id;
+                
+                const questionTextDiv = document.createElement('div');
+                questionTextDiv.className = 'question-text';
+                questionTextDiv.innerHTML = `<b>ข้อที่ ${index + 1}.</b> ${q.text}`;
+                questionDiv.appendChild(questionTextDiv);
+
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'options';
+
+                if (q.options) {
+                    q.options.forEach((option, optionIndex) => {
+                        const label = document.createElement('label');
+                        label.innerHTML = `<input type="radio" name="${q.id}" value="${optionIndex}"> ${option.text}`;
+                        optionsDiv.appendChild(label);
+                    });
+                }
+                questionDiv.appendChild(optionsDiv);
+                quizContainer.appendChild(questionDiv);
+            });
+
+            document.getElementById('submit-button').addEventListener('click', function() {
+                const userName = document.getElementById('name').value.trim();
+                if (!userName) {
+                    alert('กรุณากรอกชื่อ-นามสกุล');
+                    return;
+                }
+
+                let score = 0;
+                const userAnswers = [];
+                const totalQuestions = questions.length;
+
+                questions.forEach(q => {
+                    const questionDiv = document.getElementById(q.id);
+                    // Clear previous results if any
+                    const oldResult = questionDiv.querySelector('.result-message');
+                    if (oldResult) {
+                        oldResult.remove();
+                    }
+
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = 'result-message';
+                    
+                    let isCorrect = false;
+                    let userAnswerText = 'ไม่ได้ตอบ';
+
+                    if (q.options) {
+                        const radioButtons = document.querySelectorAll(`input[name="${q.id}"]`);
+                        const selectedOption = document.querySelector(`input[name="${q.id}"]:checked`);
+
+                        if (selectedOption) {
+                            const selectedIndex = parseInt(selectedOption.value);
+                            userAnswerText = q.options[selectedIndex].text;
+                            if (q.options[selectedIndex].isCorrect) {
+                                score++;
+                                isCorrect = true;
+                                resultDiv.classList.add('correct');
+                                resultDiv.innerHTML = '✔ ถูกต้องครับ!';
+                            } else {
+                                resultDiv.classList.add('incorrect');
+                                const correctOption = q.options.find(opt => opt.isCorrect).text;
+                                resultDiv.innerHTML = `❌ ยังไม่ถูกต้อง `;
+                            }
+                        } else {
+                            resultDiv.classList.add('incorrect');
+                            resultDiv.innerHTML = 'คุณยังไม่ได้ตอบข้อนี้';
+                        }
+                        radioButtons.forEach(rb => rb.disabled = true);
+                    }
+                    questionDiv.appendChild(resultDiv);
+                    userAnswers.push({ question: q.text, answer: userAnswerText, isCorrect: isCorrect });
+                });
+
+                const summaryContainer = document.getElementById('quiz-summary');
+                summaryContainer.innerHTML = `<h2>ผลการทดสอบของคุณ ${userName}</h2>
+                                              <h2>คะแนนที่ได้: ${score} / ${totalQuestions}</h2>`;
+                
+                // Disable button after submission
+                this.disabled = true;
+                this.textContent = 'ส่งคำตอบแล้ว';
+
+                // Re-render MathJax for the results
+                MathJax.typesetPromise();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="https://i.postimg.cc/Y9Fs6wJb/2.png" alt="Department of Mathematics Logo">
+        </div>
+        <h1>แบบฝึกทักษะคณิตศาสตร์สำหรับเตรียมซ่อมกลางภาค</h1>
+        <div id="quiz-container"></div>
+        <button id="submit-button">ส่งคำตอบ</button>
+        <div id="quiz-summary"></div>
+    </div>
+</body>
+</html>
